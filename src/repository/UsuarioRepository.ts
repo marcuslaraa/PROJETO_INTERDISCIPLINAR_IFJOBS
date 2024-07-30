@@ -6,13 +6,15 @@ export class UsuarioRepository {
         this.createTable();
     }
 
-    private async createTable() {
+     async createTable() {
         const query = `
-            CREATE TABLE IF NOT EXISTS candidatos.conta (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                numeroConta VARCHAR(20) NOT NULL,
-                saldo DECIMAL(10,2) NOT NULL,
-                tipoConta BIGINT NOT NULL
+            CREATE TABLE IF NOT EXISTS candidatos.usuario (
+                _id INT AUTO_INCREMENT PRIMARY KEY,
+                nome VARCHAR(50) NOT NULL,
+                endereco VARCHAR(20) NOT NULL,
+                cep VARCHAR(20) NOT NULL,
+                telefone VARCHAR(15) NOT NULL,
+                cpf VARCHAR(15) NOT NULL
             )`;
         try {
             const resultado = await executaComandoSQL(query, []);
