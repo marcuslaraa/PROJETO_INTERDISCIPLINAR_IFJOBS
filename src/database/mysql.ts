@@ -1,11 +1,11 @@
 import mysql, { Connection } from "mysql2"
 
 const dbConfig = {
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "97332096aA**",
-  database: "candidatos",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : undefined,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 }
 
 const mysqlConnection: Connection = mysql.createConnection(dbConfig)
