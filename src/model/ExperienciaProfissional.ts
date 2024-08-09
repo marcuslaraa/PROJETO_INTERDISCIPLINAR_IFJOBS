@@ -1,15 +1,23 @@
 export class ExperienciaProfissional {
-  id_exp_profissoinal: number
+  id: number
   cargo: string
-  startDate: Date
-  endDate: Date
+  dataInicial: Date
+  dataFinal: Date
   empresa: string
 
-  constructor (id_exp_profissoinal: number,cargo: string, startDate: Date, endDate: Date, empresa: string ){
-    this.id_exp_profissoinal = id_exp_profissoinal || 0
+  constructor (id: number, cargo: string, dataInicial: Date, dataFinal: Date, empresa: string ){
+    this.id = id || 0
     this.cargo = cargo
-    this.startDate = startDate
-    this.endDate = endDate || undefined
+    this.dataInicial = dataInicial
+    this.dataFinal = dataFinal || undefined
     this.empresa = empresa
+
+    this.validade()
+  }
+
+  validade() {
+    if (!this.cargo) throw new Error('Cargo não informado')
+    if (!this.dataInicial) throw new Error('Data inicial não informada')
+    if (!this.empresa) throw new Error('Empresa não informado')
   }
 }

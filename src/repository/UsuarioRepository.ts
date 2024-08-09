@@ -25,17 +25,20 @@ export class UsuarioRepository {
         }
     }
 
-    async insertUser(novoUsuario: Usuario) {
+    async insertUser(novoUsuario: Usuario): Promise<Usuario> {
         const query = `
             INSERT INTO candidatos.usuario (nome, endereco, cep, telefone, cpf)
             VALUES (?, ?, ?, ?, ?)`;
         const values = [novoUsuario.nome, novoUsuario.endereco, novoUsuario.cep, novoUsuario.telefone, novoUsuario.cpf];
         try {
             const resultado = await executaComandoSQL(query, values);
-            console.log('Usuário inserido com sucesso:', novoUsuario);
-            return resultado
+            novoUsuario.id = resultado.insertId
+            return new Promise<Usuario>((resolve) => {
+                resolve(novoUsuario)
+            })
         } catch (err) {
             console.error('Erro ao inserir o usuário:', err);
+            throw err
         }
     }
 
