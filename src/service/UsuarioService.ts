@@ -7,13 +7,9 @@ export class UsuarioService {
   async insertUser(usuario: Usuario) {
    const {nome, endereco, cpf, cep, telefone} = usuario
 
-   const criaEValidaUsuario: Usuario = new Usuario(nome,endereco, cpf,cep,telefone)
-   if(criaEValidaUsuario) {
-    const inserirUsuario = await this.usuarioRepository.insertUser(criaEValidaUsuario)
-    return inserirUsuario
-   }
-
-   throw new Error('Houve um erro, verifique as informações enviadas.')
-
+   const criaEValidaUsuario: Usuario = new Usuario(nome,endereco,cep,telefone,cpf)
+   const inserirUsuario = await this.usuarioRepository.insertUser(criaEValidaUsuario)
+   console.log(inserirUsuario)
+   return usuario
   }
 }

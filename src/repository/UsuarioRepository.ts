@@ -32,7 +32,7 @@ export class UsuarioRepository {
         const values = [novoUsuario.nome, novoUsuario.endereco, novoUsuario.cep, novoUsuario.telefone, novoUsuario.cpf];
         try {
             const resultado = await executaComandoSQL(query, values);
-            console.log('Usuário inserido com sucesso:', resultado);
+            console.log('Usuário inserido com sucesso:', novoUsuario);
             return resultado
         } catch (err) {
             console.error('Erro ao inserir o usuário:', err);
