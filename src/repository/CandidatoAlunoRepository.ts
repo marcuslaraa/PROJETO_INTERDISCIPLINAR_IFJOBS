@@ -1,9 +1,9 @@
 import { executaComandoSQL } from '../database/mysql'
 
 export class CandidatoAlunoRepository {
-  constructor() {
-    this.createTable()
-  }
+//   constructor() {
+//     this.createTable()
+//   }
 
   async createTable() {
     const query = `

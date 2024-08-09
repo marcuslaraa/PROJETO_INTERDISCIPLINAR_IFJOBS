@@ -1,9 +1,9 @@
 import { executaComandoSQL } from '../database/mysql'
 
 export class ExperienciaProfissionalRepository {
-  constructor() {
-    this.createTable()
-  }
+//   constructor() {
+//     this.createTable()
+//   }
   async createTable() {
     const query = `
         CREATE TABLE IF NOT EXISTS candidatos.exp_profissional (

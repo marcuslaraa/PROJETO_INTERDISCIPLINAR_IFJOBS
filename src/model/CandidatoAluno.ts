@@ -1,13 +1,15 @@
-import { ExperienciaProfissional } from './ExperienciaProfissional'
+
 import { Usuario } from './Usuario'
 
 export class CandidatoAluno extends Usuario {
   matricula: number
+  id_usuario: number
 
-  constructor(matricula: number, id_usuario: number, name: string, endereco: string, cep: string,telefone: string, cpf: string, exp_profisional: ExperienciaProfissional[] ) {
-    super(id_usuario, name, endereco, cep, telefone, cpf, exp_profisional )
+  constructor(matricula: number, id_usuario: number, name: string, endereco: string, cep: string,telefone: string, cpf: string ) {
+    super(name, endereco, cep, telefone, cpf )
 
     this.matricula = matricula
+    this.id_usuario = id_usuario
 }
 
 }
