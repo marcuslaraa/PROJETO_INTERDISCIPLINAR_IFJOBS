@@ -4,7 +4,7 @@ import { CursoRepository } from '../repository/CursoRepository'
 export class CursoService {
   cursoService = new CursoRepository()
 
-  async inserirCurso(novoCurso: Curso): Promise<Curso> {
+  async inserirCurso(novoCurso: any): Promise<Curso> {
 
     const criarCurso: Curso = new Curso(novoCurso.id, novoCurso.nome, novoCurso.duracaoMeses, novoCurso.usuarioId, novoCurso.nivelAcademico)
     const inserirCurso = await this.cursoService.inserirCurso(criarCurso)

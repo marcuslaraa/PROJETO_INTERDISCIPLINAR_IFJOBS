@@ -6,7 +6,7 @@ import { stringParaData, verificaFormatoData } from '../utils/DataUtil'
 export class ExperienciaProfissionalService {
   experienciaProfissionalRepository = new ExperienciaProfissionalRepository()
 
-  async inserirExperiencia(novaXp: ExperienciaProfissional) {
+  async inserirExperiencia(novaXp: any) {
 
     const criarExperiencia: ExperienciaProfissional = new ExperienciaProfissional(novaXp.id, novaXp.usuarioId, novaXp.dataInicio, novaXp.dataSaida, novaXp.cargo, novaXp.empresa)
     const inserirExperiencia = await this.experienciaProfissionalRepository.inserirExperiencia(criarExperiencia)

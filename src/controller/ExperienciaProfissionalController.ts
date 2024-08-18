@@ -1,53 +1,79 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { Body, Controller, Delete, Get, Post, Put, Res, Route, Tags, TsoaResponse } from 'tsoa'
+import { BasicResponseDto } from '../model/dto/BasicResponseDto'
+import { ExperienciaProfissionalRequestDto } from '../model/dto/ExperienciaProfissionalRequestDto'
 import { ExperienciaProfissionalService } from '../service/ExperienciaProfissionalService'
 
-const experienciaProfissionalService = new ExperienciaProfissionalService()
+@Route("experienciaProfissional")
+@Tags("Experiencia Profissional")
+export class ExperienciaProfissionalController extends Controller {
 
-export const criarExperiencia = async (req: Request, res: Response) => {
-  try {
-    const novoExperiencia = await experienciaProfissionalService.inserirExperiencia(req.body)
-    res.status(201).json({
-      mensagem: 'Nova experiencia adicionada com sucesso!',
-      usuario: novoExperiencia
-    })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
-  }
-}
+  experienciaProfissionalService = new ExperienciaProfissionalService()
 
-export const consultarExperienciaPorId = async (req: Request, res: Response) => {
-  try {
-    const consultarExperiencia = await experienciaProfissionalService.consultarExperienciaPorId(req.params.id)
-    res.status(200).json({ mensagem: 'Experiencia encontrada com sucesso.', consultarExperiencia })
-  } catch (err: any) {
-    res.status(404).json({ mensagem: err.message })
+  @Post()
+  async inserirExperiencia(
+    @Body() dto: ExperienciaProfissionalRequestDto,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>
+  ) {
+    try {
+      const novaExperiencia = await this.experienciaProfissionalService.inserirExperiencia(dto)
+      return success(201, new BasicResponseDto("Experiencia inserida com sucesso", novaExperiencia))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const deletarExperienciaPorId = async (req: Request, res: Response) => {
-  try {
-    const deletarExperiencia = await experienciaProfissionalService.deletarExperienciaPorId(req.params.id)
-    res.status(200).json({ mensagem: 'Experiencia deletada com sucesso.', deletarExperiencia })
-  } catch (err: any) {
-    res.status(404).json({ mensagem: err.message })
+  @Get('{id}')
+  async consultarExperienciaPorId(
+    id: number,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>) {
+    try {
+      const consultarExperiencia = await this.experienciaProfissionalService.consultarExperienciaPorId(id)
+      return success(200, new BasicResponseDto("Experiencia encontrado com sucesso", consultarExperiencia))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const atualizarExperienciaPorId = async (req: Request, res: Response) => {
-  try {
-    const atualizarExperiencia = await experienciaProfissionalService.atualizarExperienciaPorId(req.body, req.params.id)
-    res.status(201).json({ mensagem: 'Experiencia atualizada com sucesso.', atualizarExperiencia })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
+  @Delete('{id}')
+  async deletarExperienciaPorId(
+    id: number,
+    @Res() fail: TsoaResponse<404, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>) {
+    try {
+      const deletarExperiencia = await this.experienciaProfissionalService.deletarExperienciaPorId(id)
+      return success(201, new BasicResponseDto("Experiecia deletado com sucesso", deletarExperiencia))
+    } catch (err: any) {
+      return fail(404, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const listarExperiencias = async (req: Request, res: Response) => {
-  try {
-    const listarExperiencias = await experienciaProfissionalService.listarUsuarios()
-    res.status(201).json({ mensagem: 'Experiencias encontradas com sucesso.', listarExperiencias })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
+  @Put('{id}')
+  async atualizarExperienciaPorId(
+    id: number,
+    @Body() dto: ExperienciaProfissionalRequestDto,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>
+  ) {
+    try {
+      const atualizarExperiencia = await this.experienciaProfissionalService.atualizarExperienciaPorId(dto, id)
+      return success(201, new BasicResponseDto("Experiencia atualizado com sucesso", atualizarExperiencia))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
+
+  @Get()
+  async listarExperiencias(
+    @Res() fail: TsoaResponse<404, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>) {
+    try {
+      const listarTodasExperiencias = await this.experienciaProfissionalService.listarUsuarios()
+      return success(200, new BasicResponseDto("Experiencia encontrados com sucesso", listarTodasExperiencias))
+    } catch (err: any) {
+      return fail(404, new BasicResponseDto(err.message, undefined))
+    }
+  }
+
 }

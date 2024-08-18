@@ -1,29 +1,17 @@
-import express from 'express'
-import { atualizarUsuarioPorId, consultarUsuarioPorId, criarUsuario, deletarUsuarioPorId, listarUsuarios } from './controller/UsuarioController'
-import { atualizarExperienciaPorId, consultarExperienciaPorId, criarExperiencia, deletarExperienciaPorId, listarExperiencias } from './controller/ExperienciaProfissionalController'
-import { atualizarCursoPorId, consultarCursoPorId, criarCurso, deletarCursoPorId, listarCursos } from './controller/CursoController'
+import express from "express"
+import { RegisterRoutes } from './route/routes'
+import { setupSwagger } from './config/Swagger'
 
 const app = express()
 const PORT = 3000
-
 app.use(express.json())
 
-app.post('/usuario', criarUsuario)
-app.get('/usuario/:id', consultarUsuarioPorId)
-app.delete('/usuario/:id', deletarUsuarioPorId)
-app.put('/usuario/:id', atualizarUsuarioPorId)
-app.get('/usuario/', listarUsuarios)
+const apiRouter = express.Router()
+RegisterRoutes(apiRouter)
 
-app.post('/experiencia', criarExperiencia)
-app.get('/experiencia/:id', consultarExperienciaPorId)
-app.delete('/experiencia/:id', deletarExperienciaPorId)
-app.put('/experiencia/:id', atualizarExperienciaPorId)
-app.get('/experiencia/', listarExperiencias)
+app.use('/api', apiRouter)
 
-app.post('/curso', criarCurso)
-app.get('/curso/:id', consultarCursoPorId)
-app.delete('/curso/:id', deletarCursoPorId)
-app.put('/curso/:id', atualizarCursoPorId)
-app.get('/curso/', listarCursos)
+RegisterRoutes(app)
+setupSwagger(app)
 
-app.listen(PORT, () => { console.log('API rodando na porta 3000') })
+app.listen(PORT, () => console.log('Api online na porta: ' + PORT))

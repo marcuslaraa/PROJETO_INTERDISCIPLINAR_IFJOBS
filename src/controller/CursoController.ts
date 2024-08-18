@@ -1,53 +1,79 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { Body, Controller, Delete, Get, Post, Put, Res, Route, Tags, TsoaResponse } from 'tsoa'
+import { BasicResponseDto } from '../model/dto/BasicResponseDto'
 import { CursoService } from '../service/CursoService'
+import { CursoRequestDto } from '../model/dto/CursoRequestDto'
 
-const cursoService = new CursoService()
+@Route("curso")
+@Tags("Curso")
+export class CursoController extends Controller {
 
-export const criarCurso = async (req: Request, res: Response) => {
-  try {
-    const novoCurso = await cursoService.inserirCurso(req.body)
-    res.status(201).json({
-      mensagem: 'Novo curso adicionado com sucesso!',
-      usuario: novoCurso
-    })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
+  cursoService = new CursoService()
+
+  @Post()
+  async inserirCurso(
+    @Body() dto: CursoRequestDto,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>
+  ) {
+    try {
+      const novaCurso = await this.cursoService.inserirCurso(dto)
+      return success(201, new BasicResponseDto("Curso inserido com sucesso", novaCurso))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const consultarCursoPorId = async (req: Request, res: Response) => {
-  try {
-    const consultarCurso = await cursoService.consultarCursoPorId(req.params.id)
-    res.status(200).json({ mensagem: 'Curso encontrado com sucesso.', consultarCurso })
-  } catch (err: any) {
-    res.status(404).json({ mensagem: err.message })
+  @Get('{id}')
+  async consultarCursoPorId(
+    id: number,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>) {
+    try {
+      const consultarCurso = await this.cursoService.consultarCursoPorId(id)
+      return success(200, new BasicResponseDto("Curso encontrado com sucesso", consultarCurso))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const deletarCursoPorId = async (req: Request, res: Response) => {
-  try {
-    const deletarCurso = await cursoService.deletarCursoPorId(req.params.id)
-    res.status(200).json({ mensagem: 'Curso delatado com sucesso.', deletarCurso })
-  } catch (err: any) {
-    res.status(404).json({ mensagem: err.message })
+  @Delete('{id}')
+  async deletarCursoPorId(
+    id: number,
+    @Res() fail: TsoaResponse<404, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>) {
+    try {
+      const deletarCurso = await this.cursoService.deletarCursoPorId(id)
+      return success(201, new BasicResponseDto("Curso deletado com sucesso", deletarCurso))
+    } catch (err: any) {
+      return fail(404, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const atualizarCursoPorId = async (req: Request, res: Response) => {
-  try {
-    const atualizarCurso = await cursoService.atualizarCursoPorId(req.body, req.params.id)
-    res.status(201).json({ mensagem: 'Curso atualizado com sucesso.', atualizarCurso })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
+  @Put('{id}')
+  async atualizarCursoPorId(
+    id: number,
+    @Body() dto: CursoRequestDto,
+    @Res() fail: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<201, BasicResponseDto>
+  ) {
+    try {
+      const atualizarExperiencia = await this.cursoService.atualizarCursoPorId(dto, id)
+      return success(201, new BasicResponseDto("Curso atualizado com sucesso", atualizarExperiencia))
+    } catch (err: any) {
+      return fail(400, new BasicResponseDto(err.message, undefined))
+    }
   }
-}
 
-export const listarCursos = async (req: Request, res: Response) => {
-  try {
-    const listarCursos = await cursoService.listarCursos()
-    res.status(201).json({ mensagem: 'Cursos encontardos com sucesso.', listarCursos })
-  } catch (err: any) {
-    res.status(400).json({ mensagem: err.message })
+  @Get()
+  async listarCursos(
+    @Res() fail: TsoaResponse<404, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>) {
+    try {
+      const listarTodasExperiencias = await this.cursoService.listarCursos()
+      return success(200, new BasicResponseDto("Cursos encontrados com sucesso", listarTodasExperiencias))
+    } catch (err: any) {
+      return fail(404, new BasicResponseDto(err.message, undefined))
+    }
   }
+
 }
