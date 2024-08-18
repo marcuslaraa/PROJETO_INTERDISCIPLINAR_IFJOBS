@@ -1,22 +1,29 @@
 import express from 'express'
-import { UsuarioRepository } from './repository/UsuarioRepository'
-import { CandidatoAlunoRepository } from './repository/CandidatoAlunoRepository'
-import { ExperienciaProfissionalRepository } from './repository/ExperienciaProfissionalRepository'
-import { criarUsuario } from './controller/UsuarioController'
-
-const cria = new UsuarioRepository()
-const cria2 = new CandidatoAlunoRepository()
-const cria3 = new ExperienciaProfissionalRepository()
-
-cria.createTable()
-cria2.createTable()
-cria3.createTable()
+import { atualizarUsuarioPorId, consultarUsuarioPorId, criarUsuario, deletarUsuarioPorId, listarUsuarios } from './controller/UsuarioController'
+import { atualizarExperienciaPorId, consultarExperienciaPorId, criarExperiencia, deletarExperienciaPorId, listarExperiencias } from './controller/ExperienciaProfissionalController'
+import { atualizarCursoPorId, consultarCursoPorId, criarCurso, deletarCursoPorId, listarCursos } from './controller/CursoController'
 
 const app = express()
 const PORT = 3000
 
 app.use(express.json())
 
-app.post('/api/usuario', criarUsuario)
+app.post('/usuario', criarUsuario)
+app.get('/usuario/:id', consultarUsuarioPorId)
+app.delete('/usuario/:id', deletarUsuarioPorId)
+app.put('/usuario/:id', atualizarUsuarioPorId)
+app.get('/usuario/', listarUsuarios)
 
-app.listen(PORT, () => {console.log('API rodando na porta 3000')})
+app.post('/experiencia', criarExperiencia)
+app.get('/experiencia/:id', consultarExperienciaPorId)
+app.delete('/experiencia/:id', deletarExperienciaPorId)
+app.put('/experiencia/:id', atualizarExperienciaPorId)
+app.get('/experiencia/', listarExperiencias)
+
+app.post('/curso', criarCurso)
+app.get('/curso/:id', consultarCursoPorId)
+app.delete('/curso/:id', deletarCursoPorId)
+app.put('/curso/:id', atualizarCursoPorId)
+app.get('/curso/', listarCursos)
+
+app.listen(PORT, () => { console.log('API rodando na porta 3000') })

@@ -25,7 +25,7 @@ mysqlConnection.connect((err) => {
 export const executaComandoSQL = (
   query: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valores: any[]
+  valores?: any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
