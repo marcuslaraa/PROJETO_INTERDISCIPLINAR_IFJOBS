@@ -1,0 +1,19 @@
+
+  {
+    "nome": "marcus",
+    "email": "teste",
+    "cpf": "teste",
+    "cidade": "teste",
+    "telefone": "tteste",
+    "dataNascimento": "10/10/1994",
+    "matricula": "teste",
+    "curso":"teste2",
+    "periodo": 5
+  },
+
+  {
+    "nome": "ads",
+    "duracaoMeses": 6,
+    "usuarioId": 2,
+    "nivelAcademico": "teste"
+  }

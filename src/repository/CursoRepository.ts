@@ -27,7 +27,7 @@ export class CursoRepository {
 
   async inserirCurso(novoCurso: Curso): Promise<Curso> {
     const query = `
-        INSERT INTO empregos.usuario (nome, duracao_meses, usuarioId, nivel_academico )
+        INSERT INTO empregos.curso (nome, duracao_meses, usuarioId, nivel_academico )
         VALUES (?, ?, ?, ?)`
 
     const values = [novoCurso.nome, novoCurso.duracaoMeses, novoCurso.usuarioId, novoCurso.nivelAcademico]
